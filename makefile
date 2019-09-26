@@ -2,11 +2,11 @@
 #	Makefile of demo helloword  #
 #################################
 
-FOR =$(MPI)/mpif90 -IMODF -JMODF
+FOR =$(MPI)/mpif90 -IMODF 
 
 EXE = demo
 
-MPI  = /usr/bin/
+MPI = /opt/openmpi/1.4.3/bin
 # ifort on my laptop (default one)#MPI=/opt/intel/compilers_and_libraries_2016.1.150/linux/mpi/intel64/bin/OUTPUT = OUT/out
 
 OBJ = OF/io.o OF/mainWR.o OF/mainMR.o OF/main.o
