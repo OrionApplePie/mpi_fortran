@@ -8,21 +8,24 @@ PROGRAM main
     REAL(r8) :: tt0, tt1
 
     CALL MPI_INIT(IERR)
-    CALL MPI_COMM_SIZE( MPI_COMM_WORLD, NPROC, IERR)
-
+    CALL MPI_COMM_SIZE( MPI_COMM_WORLD, nPROC, IERR)
+    
     mster = 0
     nWRs = nPROC - 1
-
-    IF (myID .eq. mster) THEN 
+    
+    call MPI_COMM_RANK(MPI_COMM_WORLD, myID, IERR) !..assigns myID
+    
+    IF (myID .EQ. mster) THEN 
         tt0 = MPI_WTIME()
         CALL MASTER( nWRs )
-        
         tt1 = MPI_WTIME()
-            PRINT *, '>>>main>>> MR timing= ', tt1 - tt0, ' sec on ', nWR, ' WRs'
-    ELSE
-        CALL WORKER( nWRs, myID)
-    endif
+        PRINT *, '>>>main>>> MR timing = ', tt1 - tt0, ' sec on ', nWR, ' WRs'
 
-    call MPI_FINALIZE(IERR)
+    else
+        call worker( nWRs, myID)
+	CALL COOL(myID)
+    end if
 
-end program main
+    CALL MPI_FINALIZE(IERR)
+
+END PROGRAM main
